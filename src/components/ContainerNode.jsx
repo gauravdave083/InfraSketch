@@ -8,7 +8,6 @@ const ContainerNode = memo(({ id, data, selected }) => {
   const [editLabel, setEditLabel] = useState(data.label);
   const [handlesEnabled, setHandlesEnabled] = useState(data.handlesEnabled || false);
   const [isActive, setIsActive] = useState(false);
-  const [isActive, setIsActive] = useState(false);
   const updateNodeLabel = useDiagramStore((s) => s.updateNodeLabel);
 
   const handleDoubleClick = useCallback((e) => {
@@ -28,11 +27,6 @@ const ContainerNode = memo(({ id, data, selected }) => {
     if (e.key === 'Enter') handleBlur();
     if (e.key === 'Escape') { setIsEditing(false); setEditLabel(data.label); }
   }, [handleBlur, data.label]);
-
-  const handleEdgeClick = useCallback((e) => {
-    e.stopPropagation();
-    setIsActive(!isActive);
-  }, [isActive]);
 
   const handleEdgeClick = useCallback((e) => {
     e.stopPropagation();
@@ -135,7 +129,6 @@ const ContainerNode = memo(({ id, data, selected }) => {
           lineStyle={{ borderWidth: '2px' }}
           handleStyle={{ width: '12px', height: '12px', borderRadius: '3px' }}
         />
-      )}
       )}
 
       {/* Header with label and controls */}
