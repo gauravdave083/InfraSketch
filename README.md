@@ -6,11 +6,21 @@ A modern cloud architecture diagramming tool built with React and React Flow. Cr
 
 - 🎨 **Premium UI Design** - Glassmorphism design with smooth animations
 - ☁️ **80+ Cloud Services** - AWS, Azure, and GCP icons
-- 🔄 **Multiple Connection Types** - Animated, dotted, and solid lines
+- � **AWS Container Support** - VPC, Subnets, Security Groups, and Regions
+- �🔄 **Multiple Connection Types** - Animated, dotted, and solid lines
 - 📐 **Smart Canvas** - Zoom, pan, and snap-to-grid
 - 💾 **Export Options** - JSON, PNG, PDF, and SVG
 - 🎯 **Bidirectional Arrows** - Arrows follow connection direction
+- 🔒 **Container Controls** - Enable/disable containers for nested access
 - ⚡ **Fast & Responsive** - Built with Vite and React 19
+
+## Container Features
+
+- **Resizable Containers** - Resize from all edges and corners
+- **Nested Containers** - Place containers inside other containers
+- **Smart Z-Index** - Automatic layering for nested containers
+- **Click-Through Mode** - Disable containers to access nested elements
+- **Connection Toggle** - Enable/disable connection handles per container
 
 ## Local Development
 
