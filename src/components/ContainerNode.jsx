@@ -7,6 +7,7 @@ const ContainerNode = memo(({ id, data, selected }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editLabel, setEditLabel] = useState(data.label);
   const [handlesEnabled, setHandlesEnabled] = useState(data.handlesEnabled || false);
+  const [isActive, setIsActive] = useState(false);
   const updateNodeLabel = useDiagramStore((s) => s.updateNodeLabel);
 
   const handleDoubleClick = useCallback((e) => {
@@ -26,6 +27,11 @@ const ContainerNode = memo(({ id, data, selected }) => {
     if (e.key === 'Enter') handleBlur();
     if (e.key === 'Escape') { setIsEditing(false); setEditLabel(data.label); }
   }, [handleBlur, data.label]);
+
+  const handleEdgeClick = useCallback((e) => {
+    e.stopPropagation();
+    setIsActive(!isActive);
+  }, [isActive]);
 
   const toggleHandles = useCallback((e) => {
     e.stopPropagation();
@@ -69,19 +75,61 @@ const ContainerNode = memo(({ id, data, selected }) => {
         minWidth: '300px',
         minHeight: '200px',
         position: 'relative',
-        ...style,
         borderRadius: '8px',
       }}
     >
-      {/* Node Resizer - enables edge and corner resizing */}
-      <NodeResizer
-        color={style.borderColor}
-        isVisible={selected}
-        minWidth={300}
-        minHeight={200}
-        lineStyle={{ borderWidth: '2px' }}
-        handleStyle={{ width: '12px', height: '12px', borderRadius: '3px' }}
+      {/* Non-interactive background */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          ...style,
+          borderRadius: '8px',
+          pointerEvents: 'none',
+          opacity: isActive ? 1 : 0.6,
+        }}
       />
+
+      {/* Interactive border - click to activate (only border area) */}
+      <div
+        onClick={handleEdgeClick}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          border: style.border,
+          borderRadius: '8px',
+          pointerEvents: 'all',
+          cursor: 'pointer',
+          background: 'transparent',
+        }}
+        title="Click border to activate container"
+      />
+      
+      {/* Center area blocker - prevents clicks from passing through when inactive */}
+      {!isActive && (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            position: 'absolute',
+            inset: '15px',
+            pointerEvents: 'all',
+            cursor: 'default',
+            background: 'transparent',
+          }}
+        />
+      )}
+
+      {/* Node Resizer - only when active */}
+      {isActive && (
+        <NodeResizer
+          color={style.borderColor}
+          isVisible={selected}
+          minWidth={300}
+          minHeight={200}
+          lineStyle={{ borderWidth: '2px' }}
+          handleStyle={{ width: '12px', height: '12px', borderRadius: '3px' }}
+        />
+      )}
 
       {/* Header with label and controls */}
       <div
@@ -138,8 +186,27 @@ const ContainerNode = memo(({ id, data, selected }) => {
           </div>
         )}
         
+        {/* Active indicator */}
+        {isActive && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              background: 'rgba(76,175,80,0.2)',
+              color: '#4CAF50',
+              fontSize: '11px',
+              fontWeight: '600',
+            }}
+          >
+            ACTIVE
+          </div>
+        )}
+        
         {/* Connection handles toggle button */}
-        {selected && (
+        {selected && isActive && (
           <button
             onClick={toggleHandles}
             style={{
@@ -162,8 +229,8 @@ const ContainerNode = memo(({ id, data, selected }) => {
         )}
       </div>
 
-      {/* Connection handles - only visible when enabled */}
-      {handlesEnabled && (
+      {/* Connection handles - only when active and enabled */}
+      {isActive && handlesEnabled && (
         <>
           <Handle
             type="source"
