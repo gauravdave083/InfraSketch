@@ -1,0 +1,585 @@
+@import "tailwindcss";
+
+/* ============================================
+   INFRASKETCH — Anima-inspired Design System
+   Pure black canvas, violet→pink gradients,
+   ultra-clean borders, smooth micro-animations
+   ============================================ */
+
+:root {
+  --bg-0: #0B0F19;
+  --bg-1: #0D1220;
+  --bg-2: #111827;
+  --bg-3: #1a1f2e;
+  --bg-4: #1f2937;
+  --bg-5: #242b3d;
+  --bg-raised: #151a28;
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  --bg-glass-strong: rgba(255, 255, 255, 0.06);
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-hover: rgba(255, 255, 255, 0.05);
+
+  --text-0: #ffffff;
+  --text-1: #e4e4e7;
+  --text-2: #a1a1aa;
+  --text-3: #71717a;
+  --text-4: #52525b;
+  --text-5: #3f3f46;
+
+  --border-0: rgba(255,255,255,0.08);
+  --border-1: rgba(255,255,255,0.06);
+  --border-2: rgba(255,255,255,0.03);
+  --border-accent: rgba(168,85,247,0.35);
+
+  --accent: #a855f7;
+  --accent-2: #c084fc;
+  --accent-pink: #ec4899;
+  --accent-gradient: linear-gradient(135deg, #a855f7 0%, #8b5cf6 40%, #ec4899 100%);
+  --accent-gradient-h: linear-gradient(90deg, #a855f7 0%, #ec4899 100%);
+  --accent-glow: rgba(168,85,247,0.18);
+  --accent-glow-strong: rgba(168,85,247,0.4);
+
+  --danger: #f43f5e;
+  --success: #22c55e;
+  --warning: #eab308;
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.5);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.6);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.7);
+  --shadow-glow: 0 0 24px rgba(168,85,247,0.12);
+  --shadow-glow-strong: 0 0 40px rgba(168,85,247,0.25);
+
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --r-full: 9999px;
+
+  --blur: 12px;
+  --blur-strong: 16px;
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 120ms;
+  --t-normal: 220ms;
+  --t-smooth: 350ms;
+
+  --canvas-bg: #0B0F19;
+  --grid-color: #1a2233;
+  --grid-size: 40px;
+  --minimap-mask: rgba(0,0,0,0.72);
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+}
+
+[data-theme="light"] {
+  --bg-0: #fafafa;
+  --bg-1: #f5f5f5;
+  --bg-2: #eeeeee;
+  --bg-3: #e5e5e5;
+  --bg-4: #d4d4d4;
+  --bg-5: #c4c4c4;
+  --bg-raised: #ffffff;
+  --bg-glass: rgba(250,250,250,0.85);
+  --bg-glass-strong: rgba(255,255,255,0.95);
+
+  --text-0: #09090b;
+  --text-1: #18181b;
+  --text-2: #52525b;
+  --text-3: #a1a1aa;
+  --text-4: #d4d4d8;
+  --text-5: #e4e4e7;
+
+  --border-0: rgba(0,0,0,0.08);
+  --border-1: rgba(0,0,0,0.05);
+  --border-2: rgba(0,0,0,0.03);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.1);
+  --shadow-glow: 0 0 24px rgba(168,85,247,0.06);
+
+  --canvas-bg: #f0f0f0;
+  --grid-color: rgba(0,0,0,0.04);
+  --minimap-mask: rgba(250,250,250,0.72);
+}
+
+/* --- Base Reset --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: var(--font);
+  background: var(--bg-0);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.06) 0px, transparent 50%);
+  color: var(--text-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border-0);
+}
+
+.glass-strong {
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(var(--blur-strong));
+  -webkit-backdrop-filter: blur(var(--blur-strong));
+  border: 1px solid var(--border-0);
+}
+
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- React Flow — Anima Style --- */
+.react-flow__node {
+  cursor: grab;
+  transition: transform var(--t-fast) var(--ease);
+}
+.react-flow__node:active { cursor: grabbing; }
+
+.react-flow__edge-path {
+  stroke-width: 2;
+  transition: stroke var(--t-fast) var(--ease), stroke-width var(--t-fast) var(--ease);
+  stroke-dasharray: 5;
+  animation: edge-flow 20s linear infinite;
+}
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--accent) !important;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px var(--accent-glow)) drop-shadow(0 0 12px var(--accent-glow));
+  animation: edge-flow 10s linear infinite;
+}
+
+@keyframes edge-flow {
+  to { stroke-dashoffset: -1000; }
+}
+
+/* Edge type variants */
+.react-flow__edge.edge-dotted .react-flow__edge-path {
+  stroke-dasharray: 5 5;
+  stroke-width: 2;
+  animation: none !important;
+}
+
+.react-flow__edge.edge-solid .react-flow__edge-path {
+  stroke-dasharray: 0;
+  stroke-width: 2;
+  animation: none;
+}
+
+.react-flow__edge.edge-double .react-flow__edge-path {
+  stroke-width: 2.5;
+  filter: drop-shadow(0 3px 0 currentColor);
+  animation: none;
+}
+
+.react-flow__edge.edge-animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: edge-flow 20s linear infinite;
+}
+
+/* Arrow markers with glow */
+.react-flow__arrowhead polyline,
+.react-flow__arrowhead polygon {
+  fill: var(--text-3) !important;
+  stroke: var(--text-3) !important;
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+}
+.react-flow__edge:hover .react-flow__arrowhead polyline,
+.react-flow__edge:hover .react-flow__arrowhead polygon {
+  fill: var(--accent) !important;
+  stroke: var(--accent) !important;
+  filter: drop-shadow(0 0 6px var(--accent-glow)) drop-shadow(0 0 10px var(--accent-glow));
+}
+
+/* Edge labels */
+.react-flow__edge-text {
+  fill: var(--text-2) !important;
+  font-size: 11px !important;
+}
+.react-flow__edge-textbg {
+  fill: var(--bg-2) !important;
+}
+
+.react-flow__handle {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--bg-2) !important;
+  transition: all var(--t-fast) var(--ease) !important;
+  opacity: 0;
+}
+.react-flow__node:hover .react-flow__handle { opacity: 1; }
+.react-flow__handle:hover {
+  width: 11px !important;
+  height: 11px !important;
+  box-shadow: 0 0 10px var(--accent-glow-strong) !important;
+}
+
+.react-flow__connection-line { stroke: var(--accent); stroke-width: 2; }
+
+.react-flow__background { background: var(--canvas-bg) !important; }
+
+/* Container nodes (VPC, Subnets, etc.) */
+.container-node {
+  font-family: var(--font-sans);
+  cursor: default;
+}
+
+.container-node .react-flow__handle {
+  transition: opacity var(--t-fast) var(--ease);
+  pointer-events: all !important;
+}
+
+.react-flow__node.selected .container-node {
+  box-shadow: 0 0 0 2px var(--accent), 0 0 20px var(--accent-glow);
+}
+
+/* Z-index layering - nodes in foreground */
+.react-flow__node-cloudNode {
+  z-index: 1000 !important;
+}
+
+.react-flow__node-cloudNode:hover {
+  z-index: 1100 !important;
+}
+
+/* Selected nodes should be on top */
+.react-flow__node.selected {
+  z-index: 9999 !important;
+}
+
+/* Node resizer styling */
+.react-flow__resize-control.handle {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.react-flow__resize-control.line {
+  border-width: 2px;
+}
+
+.react-flow__controls {
+  background: var(--bg-glass-strong) !important;
+  backdrop-filter: blur(var(--blur)) !important;
+  border: 1px solid var(--border-0) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden;
+}
+.react-flow__controls button {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-2) !important;
+  color: var(--text-3) !important;
+  width: 28px !important;
+  height: 28px !important;
+  transition: all var(--t-fast) var(--ease) !important;
+}
+.react-flow__controls button:hover {
+  background: var(--bg-4) !important;
+  color: var(--text-0) !important;
+}
+.react-flow__controls button svg { fill: var(--text-3) !important; }
+.react-flow__controls button:hover svg { fill: var(--text-0) !important; }
+
+.react-flow__minimap {
+  background: var(--bg-glass-strong) !important;
+  backdrop-filter: blur(var(--blur)) !important;
+  border: 1px solid var(--border-0) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden !important;
+}
+
+.react-flow__selection {
+  background: rgba(168,85,247,0.06) !important;
+  border: 1px solid rgba(168,85,247,0.25) !important;
+}
+
+/* --- Cloud Node — Pixel-perfect 90px nodes --- */
+.cloud-node {
+  width: 90px;
+  height: 90px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-0);
+  border-radius: 18px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.cloud-node::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 18px;
+  background: var(--accent-gradient);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.2s ease;
+}
+.cloud-node:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.5),
+    0 0 30px rgba(168,85,247,0.2);
+}
+.cloud-node:hover::before { opacity: 0.12; }
+.cloud-node.selected {
+  border-color: var(--accent);
+  box-shadow: 
+    0 0 0 2px var(--accent-glow),
+    0 10px 30px rgba(0,0,0,0.5),
+    0 0 40px rgba(168,85,247,0.3);
+}
+.cloud-node.selected::before { opacity: 0.18; }
+
+.cloud-node .node-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  transition: transform 0.2s ease;
+}
+.cloud-node .node-icon::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: -1;
+}
+.cloud-node:hover .node-icon { transform: scale(1.06); }
+.cloud-node:hover .node-icon::before { opacity: 0.9; }
+.cloud-node .node-icon svg { width: 100%; height: 100%; }
+
+.cloud-node .node-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  letter-spacing: 0.02em;
+}
+
+/* --- Sidebar Items (Larger 88px cards) --- */
+.sidebar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 88px;
+  border-radius: 16px;
+  cursor: grab;
+  user-select: none;
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-1);
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.05),
+    0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+}
+.sidebar-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: radial-gradient(circle, var(--item-glow, rgba(168,85,247,0.15)) 0%, transparent 70%);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.sidebar-item:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.08),
+    0 4px 16px rgba(0,0,0,0.4),
+    0 0 20px var(--item-glow, rgba(100,150,255,0.2));
+}
+.sidebar-item:hover::before {
+  opacity: 1;
+}
+.sidebar-item:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+  transition: transform 80ms ease;
+}
+.sidebar-item .item-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+.sidebar-item:hover .item-icon { transform: scale(1.08); }
+.sidebar-item .item-icon svg { width: 100%; height: 100%; }
+.sidebar-item .item-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+}
+.sidebar-item:hover .item-label { color: var(--text-0); }
+
+/* Provider-specific glows */
+.sidebar-item.aws-glow:hover {
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.08),
+    0 4px 16px rgba(0,0,0,0.4),
+    0 0 20px rgba(255, 153, 0, 0.4);
+}
+.sidebar-item.azure-glow:hover {
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.08),
+    0 4px 16px rgba(0,0,0,0.4),
+    0 0 20px rgba(0, 120, 255, 0.4);
+}
+.sidebar-item.gcp-glow:hover {
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.08),
+    0 4px 16px rgba(0,0,0,0.4),
+    0 0 20px rgba(0, 200, 255, 0.4);
+}
+.sidebar-item.storage-glow:hover {
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.08),
+    0 4px 16px rgba(0,0,0,0.4),
+    0 0 20px rgba(0, 255, 150, 0.4);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-0); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-5); }
+
+/* --- Animations --- */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.97); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 6px var(--accent-glow); }
+  50% { box-shadow: 0 0 18px var(--accent-glow-strong); }
+}
+
+.animate-slide-in-right { animation: slideInRight var(--t-smooth) var(--ease-out) forwards; }
+.animate-slide-out-right { animation: slideOutRight var(--t-smooth) var(--ease-out) forwards; }
+.animate-slide-in-left { animation: slideInLeft var(--t-smooth) var(--ease-out) forwards; }
+.animate-fade-in { animation: fadeIn var(--t-normal) var(--ease) forwards; }
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+/* --- Tooltip --- */
+[data-tooltip] { position: relative; }
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.92);
+  padding: 6px 12px;
+  background: rgba(30, 35, 50, 0.98);
+  color: var(--text-0);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 8px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--t-fast) var(--ease);
+  z-index: 9999;
+  backdrop-filter: blur(12px);
+}
+[data-tooltip]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* --- Modal --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 180ms ease forwards;
+}
+.modal-content {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  max-width: 520px;
+  width: 92%;
+  animation: fadeIn 220ms var(--ease-out) forwards;
+}
