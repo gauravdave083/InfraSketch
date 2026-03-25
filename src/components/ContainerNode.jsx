@@ -8,6 +8,7 @@ const ContainerNode = memo(({ id, data, selected }) => {
   const [editLabel, setEditLabel] = useState(data.label);
   const [handlesEnabled, setHandlesEnabled] = useState(data.handlesEnabled || false);
   const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const updateNodeLabel = useDiagramStore((s) => s.updateNodeLabel);
 
   const handleDoubleClick = useCallback((e) => {
@@ -27,6 +28,11 @@ const ContainerNode = memo(({ id, data, selected }) => {
     if (e.key === 'Enter') handleBlur();
     if (e.key === 'Escape') { setIsEditing(false); setEditLabel(data.label); }
   }, [handleBlur, data.label]);
+
+  const handleEdgeClick = useCallback((e) => {
+    e.stopPropagation();
+    setIsActive(!isActive);
+  }, [isActive]);
 
   const handleEdgeClick = useCallback((e) => {
     e.stopPropagation();
@@ -78,7 +84,7 @@ const ContainerNode = memo(({ id, data, selected }) => {
         borderRadius: '8px',
       }}
     >
-      {/* Container background and border */}
+      {/* Non-interactive background */}
       <div
         style={{
           position: 'absolute',
@@ -90,70 +96,33 @@ const ContainerNode = memo(({ id, data, selected }) => {
         }}
       />
 
-      {/* Clickable border ring for activation - only visible when inactive */}
+      {/* Interactive border - click to activate (only border area) */}
+      <div
+        onClick={handleEdgeClick}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          border: style.border,
+          borderRadius: '8px',
+          pointerEvents: 'all',
+          cursor: 'pointer',
+          background: 'transparent',
+        }}
+        title="Click border to activate container"
+      />
+      
+      {/* Center area blocker - prevents clicks from passing through when inactive */}
       {!isActive && (
-        <>
-          {/* Top border */}
-          <div
-            onClick={handleEdgeClick}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '20px',
-              pointerEvents: 'all',
-              cursor: 'pointer',
-              zIndex: 1,
-            }}
-            title="Click border to activate container"
-          />
-          {/* Right border */}
-          <div
-            onClick={handleEdgeClick}
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              width: '20px',
-              pointerEvents: 'all',
-              cursor: 'pointer',
-              zIndex: 1,
-            }}
-            title="Click border to activate container"
-          />
-          {/* Bottom border */}
-          <div
-            onClick={handleEdgeClick}
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '20px',
-              pointerEvents: 'all',
-              cursor: 'pointer',
-              zIndex: 1,
-            }}
-            title="Click border to activate container"
-          />
-          {/* Left border */}
-          <div
-            onClick={handleEdgeClick}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              width: '20px',
-              pointerEvents: 'all',
-              cursor: 'pointer',
-              zIndex: 1,
-            }}
-            title="Click border to activate container"
-          />
-        </>
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            position: 'absolute',
+            inset: '15px',
+            pointerEvents: 'all',
+            cursor: 'default',
+            background: 'transparent',
+          }}
+        />
       )}
 
       {/* Node Resizer - only when active */}
@@ -166,6 +135,7 @@ const ContainerNode = memo(({ id, data, selected }) => {
           lineStyle={{ borderWidth: '2px' }}
           handleStyle={{ width: '12px', height: '12px', borderRadius: '3px' }}
         />
+      )}
       )}
 
       {/* Header with label and controls */}
@@ -220,6 +190,25 @@ const ContainerNode = memo(({ id, data, selected }) => {
             title={data.label}
           >
             {data.label}
+          </div>
+        )}
+        
+        {/* Active indicator */}
+        {isActive && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              background: 'rgba(76,175,80,0.2)',
+              color: '#4CAF50',
+              fontSize: '11px',
+              fontWeight: '600',
+            }}
+          >
+            ACTIVE
           </div>
         )}
         
