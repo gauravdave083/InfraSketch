@@ -78,7 +78,7 @@ const ContainerNode = memo(({ id, data, selected }) => {
         borderRadius: '8px',
       }}
     >
-      {/* Non-interactive background */}
+      {/* Container background and border */}
       <div
         style={{
           position: 'absolute',
@@ -90,33 +90,70 @@ const ContainerNode = memo(({ id, data, selected }) => {
         }}
       />
 
-      {/* Interactive border - click to activate (only border area) */}
-      <div
-        onClick={handleEdgeClick}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          border: style.border,
-          borderRadius: '8px',
-          pointerEvents: 'all',
-          cursor: 'pointer',
-          background: 'transparent',
-        }}
-        title="Click border to activate container"
-      />
-      
-      {/* Center area blocker - prevents clicks from passing through when inactive */}
+      {/* Clickable border ring for activation - only visible when inactive */}
       {!isActive && (
-        <div
-          onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'absolute',
-            inset: '15px',
-            pointerEvents: 'all',
-            cursor: 'default',
-            background: 'transparent',
-          }}
-        />
+        <>
+          {/* Top border */}
+          <div
+            onClick={handleEdgeClick}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '20px',
+              pointerEvents: 'all',
+              cursor: 'pointer',
+              zIndex: 1,
+            }}
+            title="Click border to activate container"
+          />
+          {/* Right border */}
+          <div
+            onClick={handleEdgeClick}
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: '20px',
+              pointerEvents: 'all',
+              cursor: 'pointer',
+              zIndex: 1,
+            }}
+            title="Click border to activate container"
+          />
+          {/* Bottom border */}
+          <div
+            onClick={handleEdgeClick}
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '20px',
+              pointerEvents: 'all',
+              cursor: 'pointer',
+              zIndex: 1,
+            }}
+            title="Click border to activate container"
+          />
+          {/* Left border */}
+          <div
+            onClick={handleEdgeClick}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              width: '20px',
+              pointerEvents: 'all',
+              cursor: 'pointer',
+              zIndex: 1,
+            }}
+            title="Click border to activate container"
+          />
+        </>
       )}
 
       {/* Node Resizer - only when active */}
